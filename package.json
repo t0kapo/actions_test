@@ -1,0 +1,9 @@
+{
+  "name": "actions_test",
+  "version": "1.0.0",
+  "description": "This repository use for GitHub Actions Test.",
+  "main": "index.js",
+  "repository": "https://github.com/t0kapo/actions_test.git",
+  "author": "tokap0 <takachin5353@gmail.com>",
+  "license": "MIT"
+}
