@@ -3,7 +3,15 @@
   "version": "1.0.0",
   "description": "This repository use for GitHub Actions Test.",
   "main": "index.js",
+  "scripts": {
+    "tagchange": "node add_tag.js"
+  },
   "repository": "https://github.com/t0kapo/actions_test.git",
   "author": "t0kapo",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "jquery": "^3.6.0",
+    "js-beautify": "^1.14.0",
+    "jsdom": "^18.0.1"
+  }
 }
