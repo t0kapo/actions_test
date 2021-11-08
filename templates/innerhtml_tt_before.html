@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="ja">
+<head>
+        <title>Bad Web Application</title>
+        <meta charset="utf-8"/>
+</head>
+<body>
+        <h1>Bad Web Application for XSS experiment</h1>
+        <p id="dom_sink_element">You can use this Web application for code injection attack experiment!</p>
+        <div id="output_element"></div>
+        <form id="input_element">
+                <input type="text" id="sink_element" name="field">
+                <input type="button" value="input" id="buttoncheck" onclick="button_action()">
+        </form>
+        <script type="text/javascript" src="./static/js/innerhtml_tt_po.js">
+        </script>
+</body>
+</html>
+      
