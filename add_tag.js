@@ -1,5 +1,5 @@
-//use in cli「node add_tag.js htmlfile(変更するHTMLの相対path)　jsfile_location(policyが記述された)  policy_name(追加したいポリシーの名前)　」
-//package.json scriptsに"tagchange":"node add_tag.js"を追加した場合どうなる？
+//use in cli「node add_tag.js htmlfile(変更するHTMLの相対path)　jsfile_location(policyが記述された) 」
+//package.jsonのscriptsに"tagchange":"node add_tag.js"がある場合「yarn run tagchange htmlfile(変更するHTMLの相対path)　jsfile_location(policyが記述された)  」
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
 const jquery = require("jquery");
@@ -10,7 +10,7 @@ const beautify_html = require("js-beautify").html;
 //assign html file and policy javascript(japanese:HTMLファイルとJSファイルの中身を変数へ格納)
 var file_str = String(process.argv[2]);
 var file_js = String(process.argv[3]);
-var policy_name = String(process.argv[4]);
+//var policy_name = String(process.argv[4]);
 let html = fs.readFileSync(file_str,"utf8");
 let jscript = fs.readFileSync(file_js,"utf8");;
 
@@ -20,28 +20,27 @@ const $ = jquery(dom.window);
 
 if ($('meta[http-equiv="Content-Security-Policy"]').length){    //Trusted Types有効化用のmetaタグ(CSPヘッダ用)がある場合
 	var check = String($('meta[http-equiv="Content-Security-Policy"]').attr("content"));
-	console.log(check);
-	const str_check =  new RegExp(policy_name);
-	/*
-	var script_list = [];                                       //HTML内のポリシーから、既にポリシーがあるか探す
-	$("script[id='trusted_types']").each(function(index, value){
-		script_list.push(value.text);
-	})
 
-	var num = new RegExp(policy_name);
-	var check = script_list.filter(value => value.match(num));
-	console.log(check.length);
-	if (check.length > 0){
-	*/
+	const words = jscript.split(' ');
+	const policy_name = words[1];
+	const str_check =  new RegExp(policy_name);
+
 	if (str_check.test(check) ==  true){		//既に指定したポリシーがある場合
 		console.log("The policy '"+ policy_name + "' already exists!!");									//何もしない 
 	}else{
+		console.log("add new policy!");
+
 		$('meta[http-equiv="Content-Security-Policy"]').attr("content", function(index, val){ //新しいポリシーの場合、新しいポリシー名とポリシーを追加する
 			return val + ' ' + policy_name;
 		});
 		$("body").prepend('<script id="trusted_types">' + jscript + '</script>');
 	}
 }else{
+	console.log("Activate Trusted Types and add new policy!!");
+
+	const words = jscript.split(' ');
+	const policy_name = words[1];
+
 	$("head").append('<meta http-equiv="Content-Security-Policy" content="require-trusted-types-for \'script\';  trusted-types ' + policy_name +'">');
 	$("body").prepend('<script id="trusted_types">' + jscript + '</script>');
 }
